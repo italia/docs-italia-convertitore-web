@@ -1,0 +1,46 @@
+{% extends "docsitalia/base.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div class="u-padding-r-bottom u-textLeft u-posRelative u-zindex-40">
+    <h1>Converti il tuo documento</h1>
+    Puoi caricare file di tipo .docx e .odt creati secondo le linee guida su come scrivere documenti da convertire.
+
+    <form id="MyDropzone" class="dropzone"
+        enctype="multipart/form-data" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
+        method="POST" id="dropzone-upload">{% csrf_token %}
+
+        <div class="offset-md-4 col-md-4">
+          <div class="form-group">
+            {{ form.email }}
+            {{ form.email.errors }}
+            <label for="email">Indirizzo email</label>
+          </div>
+        </div>
+
+        {{ form.file }}
+        {{ form.file.errors }}
+
+        <div class="offset-md-4 col-md-4">
+          <div class="form-group">
+            <label for="monospace">Rileva testo monospace come codice</label>
+            {{ form.monospace }}
+          </div>
+        </div>
+
+        <button form="MyDropzone" type="submit" class="yo btn btn-primary" >
+            Invia
+        </button>
+    </form>
+</div>
+<script src="{% static 'js/dropzone.js' %}"></script>
+<script>
+    Dropzone.options.myAwesomeDropzone = {
+      paramName: "file", // The name that will be used to transfer the file
+      maxFilesize: 2, // MB
+      acceptedFiles: "image/jpg"
+    };
+</script>
+
+<link rel="stylesheet" href="{% static 'css/dropzone.css' %}" />
+{% endblock %}
