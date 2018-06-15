@@ -2,13 +2,12 @@
 {% load i18n static %}
 
 {% block content %}
-<div class="u-padding-r-bottom u-textLeft u-posRelative u-zindex-40">
+<div class="u-padding-r-bottom u-textLeft u-posRelative u-zindex-40 dropzone">
     <h1>Converti il tuo documento</h1>
     Puoi caricare file di tipo .docx e .odt creati secondo le linee guida su come scrivere documenti da convertire.
 
-    <form id="MyDropzone" class="dropzone"
-        enctype="multipart/form-data" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
-        method="POST" id="dropzone-upload">{% csrf_token %}
+    <form enctype="multipart/form-data" id="converterForm" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
+        method="POST" >{% csrf_token %}
 
         <div class="offset-md-4 col-md-4">
           <div class="form-group">
@@ -17,10 +16,16 @@
             <label for="email">Indirizzo email</label>
           </div>
         </div>
-
-        {{ form.file }}
-        {{ form.file.errors }}
-
+        {% comment %}
+            need to do this because of dropzone
+            {{ form.file }}
+            {{ form.file.errors }}
+        {% endcomment %}
+        <div id="fileInput" class="dropzone">
+          <div class="fallback">
+            <input name="file" type="file" multiple />
+          </div>
+        </div>
         <div class="offset-md-4 col-md-4">
           <div class="form-group">
             <label for="monospace">Rileva testo monospace come codice</label>
@@ -28,18 +33,49 @@
           </div>
         </div>
 
-        <button form="MyDropzone" type="submit" class="yo btn btn-primary" >
+        <button form="converterForm" id="submit" type="submit" class="yo btn btn-primary" >
             Invia
         </button>
     </form>
 </div>
 <script src="{% static 'js/dropzone.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 <script>
-    Dropzone.options.myAwesomeDropzone = {
-      paramName: "file", // The name that will be used to transfer the file
-      maxFilesize: 2, // MB
-      acceptedFiles: "image/jpg"
-    };
+    Dropzone.autoDiscover = false;
+    $(document).ready(function() {
+      new Dropzone('#fileInput', {
+        url: "#",
+        maxFiles:1,
+        acceptedFiles: "application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text",
+        autoProcessQueue: false,
+        init: function () {
+        var myDropzone = this;
+        $("#submit").click(function (e) {
+                e.preventDefault();
+                myDropzone.processQueue();
+                $('#converterForm').validate({
+                    rules: {
+                        email: {
+                            required: true,
+                            email: true
+                        }
+                    },
+                    submitHandler: function(form) {
+                        alert(11);
+                    }
+                });
+            });
+            myDropzone.on('success', function () {
+                window.location.href = "{% url 'docs_italia_convertitore:conversion-started' %}";
+            });
+        },
+        sending: function (file, xhr, formData) {
+            formData.append("email", $('#id_email').val());
+            formData.append("monospace", $('#id_monospace').val());
+            formData.append("csrfmiddlewaretoken", $('input[name="csrfmiddlewaretoken"]').val());
+        }
+     })
+    })
 </script>
 
 <link rel="stylesheet" href="{% static 'css/dropzone.css' %}" />

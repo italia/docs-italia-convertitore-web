@@ -25,7 +25,7 @@ def process_file(email, uploaded):
     tmp folder and calls the `converti` command on it.
     Than emails the user with the link to download the converted file.
     """
-    unique_key = urlsafe_b64encode(email + uploaded.name).rstrip('=')# maybe we should use date time now to allow the uploado of a file with the same name
+    unique_key = urlsafe_b64encode(email + uploaded.name).rstrip('=')# maybe we should use date time now to allow the upload of a file with the same name
     new_folder_name = os.path.join(CONVERSION_UPLOAD_DIR, unique_key)
     if not os.path.exists(new_folder_name):
         os.mkdir(new_folder_name)
@@ -43,7 +43,7 @@ def process_file(email, uploaded):
     )
     log.info('Processing uploaded file {} from {}'.format(uploaded.name, email))
     send_mail(
-        'Conversione del documento effettuata!',
+        'Conversione del documento effettuata',
         'http://localhost:8000/media/tmp/{}/{}.zip'.format(unique_key, zipped_name),
         'from@example.com',
         [email],

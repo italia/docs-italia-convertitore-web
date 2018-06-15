@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
-
+from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import FormView
@@ -25,6 +25,13 @@ class FileUploadView(FormView):
         email = form.cleaned_data['email']
         process_file.delay(email, uploaded)
         return super(FileUploadView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        response = super(FileUploadView, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
 
     def get_success_url(self):
         return reverse('docs_italia_convertitore:conversion-started')

@@ -2,17 +2,28 @@
 docs-italia-convertitore
 =============================
 
-Applicazione Django che si interfaccia con il convertitore pandoc
-
+Applicazione Django che si interfaccia con :
+`docs-italia-convertitore <https://github.com/italia/docs-italia-comandi-conversione>`_
 
 Quickstart
 ----------
 
-Install docs-italia-convertitore::
+Prima di tutto è necessario seguire l'installazione di questi due pacchetti:
+
+https://github.com/italia/docs-italia-comandi-conversione#installazione
+e
+https://github.com/italia/docs-italia-pandoc-filters#installazione
+
+Assicurarsi inoltre che il comando converti sia eseguibile dalla propria shell, se 
+questo non avenisse è necessario aggiungere al proprio .bashrc quest riga:
+export PATH=$HOME/.local/bin:$PATH
+e ricaricare il proprio bashrc . ~/.bashrc
+
+Fatto questo installa il pacchetto con:
 
     pip install git+https://github.com/italia/docs-italia-convertitore-web.git
 
-Aggiungi alle `INSTALLED_APPS`:
+aggiungi alle `INSTALLED_APPS`:
 
 .. code-block:: python
 
@@ -22,42 +33,9 @@ Aggiungi alle `INSTALLED_APPS`:
         ...
     )
 
-Add docs-italia-convertitore's URL patterns:
+E per finire includi le urls del pacchetto nel file: readthedocs/docsitalia/urls.py
 
 .. code-block:: python
 
-    from docs_italia_convertitore import urls as docs_italia_convertitore_urls
+    docsitalia_urls.insert(0, url(r'', include('docs_italia_convertitore_web.urls', namespace='docs_italia_convertitore')))
 
-
-    urlpatterns = [
-        ...
-        url(r'^', include(docs_italia_convertitore_urls)),
-        ...
-    ]
-
-Features
---------
-
-* TODO
-
-Running Tests
--------------
-
-Does the code actually work?
-
-::
-
-    source <YOURVIRTUALENV>/bin/activate
-    (myenv) $ pip install tox
-    (myenv) $ tox
-
-Credits
--------
-
-Tools used in rendering this package:
-
-*  Cookiecutter_
-*  `cookiecutter-djangopackage`_
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage
