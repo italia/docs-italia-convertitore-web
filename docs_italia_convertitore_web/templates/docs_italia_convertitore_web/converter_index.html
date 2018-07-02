@@ -26,13 +26,14 @@
             <input name="file" type="file" multiple />
           </div>
         </div>
+        {% comment %}
         <div class="offset-md-4 col-md-4">
           <div class="form-group">
             <label for="monospace">Rileva testo monospace come codice</label>
             {{ form.monospace }}
           </div>
         </div>
-
+        {% endcomment %}
         <button form="converterForm" id="submit" type="submit" class="yo btn btn-primary" >
             Invia
         </button>
