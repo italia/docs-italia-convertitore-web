@@ -2,43 +2,51 @@
 {% load i18n static %}
 
 {% block content %}
-<div class="u-padding-r-bottom u-textLeft u-posRelative u-zindex-40 dropzone">
-    <h1>Converti il tuo documento</h1>
-    Puoi caricare file di tipo .docx e .odt creati secondo le linee guida su come scrivere documenti da convertire.
+<div class="pt-5">
+    <div class="container">
+        <div class="u-padding-r-bottom u-textLeft u-posRelative u-zindex-40">
+            <h1>Converti il tuo documento</h1>
+            Puoi caricare file di tipo .docx e .odt creati secondo le linee guida su come scrivere documenti da convertire.
 
-    <form enctype="multipart/form-data" id="converterForm" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
-        method="POST" >{% csrf_token %}
+            <form enctype="multipart/form-data" id="converterForm" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
+                method="POST" >{% csrf_token %}
 
-        <div class="offset-md-4 col-md-4">
-          <div class="form-group">
-            {{ form.email }}
-            {{ form.email.errors }}
-            <label for="email">Indirizzo email</label>
-          </div>
+                <div class="offset-md-4 col-md-4">
+                  <div class="form-group">
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                    <label for="email">Indirizzo email</label>
+                  </div>
+                </div>
+                {% comment %}
+                    need to do this because of dropzone
+                    {{ form.file }}
+                    {{ form.file.errors }}
+                {% endcomment %}
+                <div id="fileInput" class="dropzone">
+                  <div class="fallback">
+                    <input name="file" type="file" multiple />
+                  </div>
+                </div>
+                {% comment %}
+                <div class="offset-md-4 col-md-4">
+                  <div class="form-group">
+                    <label for="monospace">Rileva testo monospace come codice</label>
+                    {{ form.monospace }}
+                  </div>
+                </div>
+                {% endcomment %}
+                <div class="pt-3 pb-5 text-center">
+                    <button form="converterForm" id="submit" type="submit" class="yo btn btn-primary" >
+                        Invia
+                    </button>
+                </div>
+            </form>
         </div>
-        {% comment %}
-            need to do this because of dropzone
-            {{ form.file }}
-            {{ form.file.errors }}
-        {% endcomment %}
-        <div id="fileInput" class="dropzone">
-          <div class="fallback">
-            <input name="file" type="file" multiple />
-          </div>
-        </div>
-        {% comment %}
-        <div class="offset-md-4 col-md-4">
-          <div class="form-group">
-            <label for="monospace">Rileva testo monospace come codice</label>
-            {{ form.monospace }}
-          </div>
-        </div>
-        {% endcomment %}
-        <button form="converterForm" id="submit" type="submit" class="yo btn btn-primary" >
-            Invia
-        </button>
-    </form>
+    </div>
 </div>
+{% block extra_scripts %}
+{{ block.super }}
 <script src="{% static 'js/dropzone.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
 <script>
@@ -78,6 +86,6 @@
      })
     })
 </script>
-
+{% endblock %}
 <link rel="stylesheet" href="{% static 'css/dropzone.css' %}" />
 {% endblock %}
