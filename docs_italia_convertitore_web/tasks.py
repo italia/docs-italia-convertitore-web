@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 import logging
 import os
+import shutil
 import subprocess
 
 from celery import shared_task
@@ -29,16 +30,27 @@ def process_file(email, saved, unique_key):
     :param unique_key: the unique name of the new folder
     """
     file_path, file_name = os.path.split(saved)
-    new_file_name = os.path.splitext(os.path.basename(file_name))[0] + '.rst'
+    new_file_name = '%s.rst' % os.path.splitext(os.path.basename(file_name))[0]
     log.info('Processing uploaded file {} from {}'.format(saved, email))
     err_msg = None
     out_msg = None
-    try:
-        out_msg = subprocess.check_output(['pandoc', saved], stderr=subprocess.STDOUT)
-    except subprocess.CalledProcessError as e:
-        err_msg = e.output
-    msg = 'http://{}{}/{}/{}'.format(
-        PRODUCTION_DOMAIN, DOCS_ITALIA_CONVERSION_UPLOAD_PATH,
+    if os.path.splitext(file_name)[1].lower() == '.docx':
+        try:
+            out_msg = subprocess.check_output(['converti', saved], stderr=subprocess.STDOUT, cwd=file_path)
+        except subprocess.CalledProcessError as e:
+            err_msg = e.output
+        if not err_msg:
+            new_file_name = os.path.splitext(os.path.basename(file_name))[0]
+            os.chdir(os.path.join(file_path, 'risultato-conversione'))
+            shutil.make_archive(os.path.join(file_path, new_file_name), 'zip', '.')
+            new_file_name = '%s.zip' % new_file_name
+    else:
+        try:
+            out_msg = subprocess.check_output(['pandoc', saved, '-o %s' % new_file_name], stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            err_msg = e.output
+    msg = '{}/{}/{}'.format(
+        DOCS_ITALIA_CONVERSION_UPLOAD_PATH,
         unique_key,
         new_file_name
     )
