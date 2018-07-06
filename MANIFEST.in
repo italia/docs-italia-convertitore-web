@@ -3,4 +3,5 @@ include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
 include README.rst
+include *txt
 recursive-include docs_italia_convertitore_web *.html *.png *.gif *js *.css *jpg *jpeg *svg *py

@@ -1,5 +1,5 @@
 # -*- coding: utf-8
-from __future__ import unicode_literals, absolute_import
+from __future__ import absolute_import, unicode_literals
 
 import django
 
@@ -31,3 +31,9 @@ if django.VERSION >= (1, 10):
     MIDDLEWARE = ()
 else:
     MIDDLEWARE_CLASSES = ()
+
+PRODUCTION_DOMAIN = 'http://convert.com'
+MEDIA_URL = 'http://convert.com/media/'
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+CELERY_ALWAYS_EAGER = True
+BROKER_BACKEND = 'memory'
