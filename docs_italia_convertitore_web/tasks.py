@@ -1,5 +1,6 @@
-"""Basic tasks."""
-from __future__ import absolute_import
+# -*- coding: utf-8 -*-
+"""Public project views."""
+from __future__ import absolute_import, unicode_literals
 
 import logging
 import os
