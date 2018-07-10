@@ -33,7 +33,7 @@ class FileUploadView(FormView):
         email = form.cleaned_data['email']
         unique_key = uuid.uuid1().hex
         new_folder_name = os.path.join(CONVERSION_UPLOAD_DIR, unique_key)
-        os.makedirs(new_folder_name)
+        os.makedirs(new_folder_name, exist_ok=True)
         saved = os.path.join(CONVERSION_UPLOAD_DIR, new_folder_name, uploaded.name)
         with default_storage.open(saved, 'wb+') as destination:
             for chunk in uploaded.chunks():
