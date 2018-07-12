@@ -64,22 +64,21 @@ def _run_pandoc(uploaded_file, new_file_name, file_path):
 
 
 @shared_task(queue='web')
-def process_file(email, uploaded_file, unique_key):
+def process_file(email, uploaded_file, unique_key, use_converti=True):
     """
     This celery task save the uploaded file from memory to the
     tmp folder and calls the ``pandoc`` or ``converti`` command on it.
     Than emails the user with the link to download the converted file or the error message
 
-    TODO: Report back to the frontend the conversion status
-
     :param email: the user email
     :param uploaded_file: the full path of the uploaded file
     :param unique_key: the unique name of the new folder
+    :param use_converti: run ``converti`` command (true) or ``pandoc`` (false). As of now we always run converti
     """
     file_path, file_name = os.path.split(uploaded_file)
     new_file_name = '%s.rst' % os.path.splitext(os.path.basename(file_name))[0]
     log.info('Processing uploaded file {} from {}'.format(uploaded_file, email))
-    if os.path.splitext(file_name)[1].lower() == '.docx':
+    if use_converti:
         out_msg, err_msg = _run_converti(uploaded_file, new_file_name, file_path)
         if not err_msg:
             new_file_name = os.path.splitext(os.path.basename(file_name))[0]

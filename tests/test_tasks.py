@@ -18,7 +18,7 @@ class TaskTest(TestCase):
         patched.return_value = (
             None, error_msg
         )
-        process_file.apply(('test@email.com', 'some file.doc', 'super_unique'), )
+        process_file.apply(('test@email.com', 'some file.doc', 'super_unique', False), )
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, 'Errore conversione documento di DOCS ITALIA')
@@ -29,7 +29,7 @@ class TaskTest(TestCase):
         patched.return_value = (
             None, None
         )
-        process_file.apply(('test@email.com', 'some file.doc', 'super_unique'), )
+        process_file.apply(('test@email.com', 'some file.doc', 'super_unique', False), )
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, 'Conversione documento di DOCS ITALIA')
