@@ -10,6 +10,7 @@ from shutil import make_archive
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.http import urlquote
 
@@ -100,28 +101,34 @@ def process_file(email, uploaded_file, unique_key, use_converti=True):
             unique_key,
             urlquote('%s.zip' % error_package)
         )
-        msg = 'There was an error processing %s: %s %s' % (uploaded_file, out_msg, err_msg)
-        sentry_message(msg, extra={
+        context = {
+            'file_name': file_name,
+            'path': original_path,
+            'conversion_id': unique_key,
+            'output_message': '%s %s' % (out_msg, err_msg)
+        }
+        template = 'docs_italia_convertitore_web/email/error_body.html'
+        subject = 'Errore conversione documento di DOCS ITALIA'
+        sentry_message('There was an error processing %s: %s %s' % (uploaded_file, out_msg, err_msg), extra={
             'original_file_url': original_path
         })
-        log.error(msg)
-        send_mail(
-            'Errore conversione documento di DOCS ITALIA',
-            err_msg,
-            DOCS_ITALIA_CONVERTER_EMAIL,
-            [email],
-            fail_silently=False,
-        )
     else:
         path = os.path.join(
             DOCS_ITALIA_CONVERSION_UPLOAD_PATH,
             unique_key,
             urlquote(new_file_name)
         )
-        send_mail(
-            'Conversione documento di DOCS ITALIA',
-            path,
-            DOCS_ITALIA_CONVERTER_EMAIL,
-            [email],
-            fail_silently=False,
-        )
+        context = {
+            'path': path,
+            'conversion_id': unique_key
+        }
+        template = 'docs_italia_convertitore_web/email/success_body.html'
+        subject = 'Conversione documento di DOCS ITALIA'
+    body = render_to_string(template, context=context)
+    send_mail(
+        subject,
+        body,
+        DOCS_ITALIA_CONVERTER_EMAIL,
+        [email],
+        fail_silently=False,
+    )

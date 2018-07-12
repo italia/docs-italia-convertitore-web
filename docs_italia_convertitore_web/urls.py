@@ -8,7 +8,7 @@ app_name = 'docs_italia_convertitore_web'
 urlpatterns = [
     url(r'^$', FileUploadView.as_view(), name='docs-italia-converter-view'),
     url(r'message$',
-        TemplateView.as_view(template_name='docs_italia_convertitore_web/conversion_started_message.html'),
+        TemplateView.as_view(template_name='docs_italia_convertitore_web/converter_started.html'),
         name='conversion-started'
         ),
 ]
