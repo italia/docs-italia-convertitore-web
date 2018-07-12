@@ -13,6 +13,8 @@ from django.core.mail import send_mail
 from django.utils.encoding import force_text
 from django.utils.http import urlquote
 
+from .utils import sentry_message
+
 log = logging.getLogger(__name__)
 
 PRODUCTION_DOMAIN = getattr(settings, 'PRODUCTION_DOMAIN')
@@ -88,7 +90,21 @@ def process_file(email, uploaded_file, unique_key, use_converti=True):
     else:
         out_msg, err_msg = _run_pandoc(uploaded_file, new_file_name, file_path)
     if err_msg:
-        log.error('There was an error processing %s: %s %s' % (uploaded_file, out_msg, err_msg))
+        # zipping the content of the folder for inspection
+        # reporting the URL to download the document through sentry
+        os.chdir(file_path)
+        error_package = os.path.splitext(os.path.basename(file_name))[0]
+        make_archive(os.path.join(file_path, error_package), 'zip', '.')
+        original_path = os.path.join(
+            DOCS_ITALIA_CONVERSION_UPLOAD_PATH,
+            unique_key,
+            urlquote('%s.zip' % error_package)
+        )
+        msg = 'There was an error processing %s: %s %s' % (uploaded_file, out_msg, err_msg)
+        sentry_message(msg, extra={
+            'original_file_url': original_path
+        })
+        log.error(msg)
         send_mail(
             'Errore conversione documento di DOCS ITALIA',
             err_msg,
@@ -97,14 +113,14 @@ def process_file(email, uploaded_file, unique_key, use_converti=True):
             fail_silently=False,
         )
     else:
-        msg = '{}/{}/{}'.format(
+        path = os.path.join(
             DOCS_ITALIA_CONVERSION_UPLOAD_PATH,
             unique_key,
             urlquote(new_file_name)
         )
         send_mail(
             'Conversione documento di DOCS ITALIA',
-            msg,
+            path,
             DOCS_ITALIA_CONVERTER_EMAIL,
             [email],
             fail_silently=False,
