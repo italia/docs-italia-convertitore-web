@@ -31,7 +31,8 @@ class TaskTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, 'Errore conversione documento di DOCS ITALIA')
-        self.assertEqual(message.body, error_msg)
+        self.assertIn(error_msg, message.body)
+        self.assertIn('Conversion ID', message.body)
 
     @patch('docs_italia_convertitore_web.tasks._run_pandoc')
     @patch('docs_italia_convertitore_web.tasks.make_archive')
@@ -47,7 +48,8 @@ class TaskTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, 'Conversione documento di DOCS ITALIA')
-        self.assertEqual(message.body, 'http://convert.com/media/tmp/super_unique/some%20file.rst')
+        self.assertIn('http://convert.com/media/tmp/super_unique/some%20file.rst', message.body)
+        self.assertIn('Conversion ID', message.body)
 
     @patch('docs_italia_convertitore_web.tasks._run_converti')
     @patch('docs_italia_convertitore_web.tasks.make_archive')
@@ -68,7 +70,8 @@ class TaskTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, 'Errore conversione documento di DOCS ITALIA')
-        self.assertEqual(message.body, error_msg)
+        self.assertIn(error_msg, message.body)
+        self.assertIn('Conversion ID', message.body)
 
     @patch('docs_italia_convertitore_web.tasks._run_converti')
     @patch('docs_italia_convertitore_web.tasks.make_archive')
@@ -87,4 +90,5 @@ class TaskTest(TestCase):
         message = mail.outbox[0]
         new_file = os.path.splitext(os.path.basename(path))[0]
         self.assertEqual(message.subject, 'Conversione documento di DOCS ITALIA')
-        self.assertEqual(message.body, 'http://convert.com/media/tmp/super_unique/%s.zip' % new_file)
+        self.assertIn('http://convert.com/media/tmp/super_unique/%s.zip' % new_file, message.body)
+        self.assertIn('Conversion ID', message.body)
