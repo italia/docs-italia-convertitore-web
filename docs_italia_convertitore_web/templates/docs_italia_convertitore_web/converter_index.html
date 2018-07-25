@@ -72,6 +72,17 @@
       $(function () {
         $('[data-toggle="popover"]').popover()
       });
+      var validator = $('#converterForm').validate({
+        rules: {
+          email: {
+            required: true,
+              email: true
+          },
+          file: {
+            required: true
+          }
+        }
+      });
       new Dropzone('#fileInput', {
         url: "#",
         maxFiles:1,
@@ -82,17 +93,9 @@
         $("#submit").click(function (e) {
                 e.preventDefault();
                 myDropzone.processQueue();
-                $('#converterForm').validate({
-                    rules: {
-                        email: {
-                            required: true,
-                            email: true
-                        }
-                    },
-                    submitHandler: function(form) {
-                        alert(11);
-                    }
-                });
+                if(!validator.form()) {
+                  alert("E' necessario fornire un indirizzo email");
+                }
             });
             myDropzone.on('success', function () {
                 window.location.href = "{% url 'docs_italia_convertitore:conversion-started' %}";
