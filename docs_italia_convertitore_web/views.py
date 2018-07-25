@@ -38,7 +38,8 @@ class FileUploadView(FormView):
         with default_storage.open(saved, 'wb+') as destination:
             for chunk in uploaded.chunks():
                 destination.write(chunk)
-        process_file.delay(email, saved, unique_key)
+        options_json = form.get_options_json(new_folder_name)
+        process_file.delay(email, saved, unique_key, options_json=options_json)
         return super(FileUploadView, self).form_valid(form)
 
     def form_invalid(self, form):
