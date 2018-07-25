@@ -45,6 +45,9 @@
         </div>
     </div>
 </div>
+<link rel="stylesheet" href="{% static 'css/dropzone.css' %}" />
+{% endblock %}
+
 {% block extra_scripts %}
 {{ block.super }}
 <script src="{% static 'js/dropzone.js' %}"></script>
@@ -86,6 +89,4 @@
      })
     })
 </script>
-{% endblock %}
-<link rel="stylesheet" href="{% static 'css/dropzone.css' %}" />
 {% endblock %}
