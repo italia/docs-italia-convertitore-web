@@ -23,7 +23,7 @@ DOCS_ITALIA_CONVERSION_UPLOAD_PATH = os.path.join(settings.MEDIA_URL, 'tmp')
 DOCS_ITALIA_CONVERTER_EMAIL = getattr(settings, 'DOCS_ITALIA_CONVERTER_EMAIL', 'info@example.org')
 
 
-def _run_converti(uploaded_file, new_file_name, file_path):
+def _run_converti(uploaded_file, new_file_name, file_path, options_json=None):
     """
     Run converti and report output messages
 
@@ -35,8 +35,13 @@ def _run_converti(uploaded_file, new_file_name, file_path):
     """
     err_msg = None
     out_msg = None
+    options = []
+    if options_json:
+        options = ['--opzioni-json', options_json]
     try:
-        out_msg = subprocess.check_output(['converti', uploaded_file], stderr=subprocess.STDOUT, cwd=file_path)
+        out_msg = subprocess.check_output(
+            ['converti', uploaded_file] + options, stderr=subprocess.STDOUT, cwd=file_path
+        )
     except subprocess.CalledProcessError as e:
         err_msg = e.output
     except Exception as e:
@@ -51,6 +56,7 @@ def _run_pandoc(uploaded_file, new_file_name, file_path):
     :param uploaded_file: uploaded file
     :param new_file_name: converted file name
     :param file_path: source path
+    :param options_json: optional path to the `converti` command options json file
 
     :return: error messages
     """
@@ -67,7 +73,7 @@ def _run_pandoc(uploaded_file, new_file_name, file_path):
 
 
 @shared_task(queue='web')
-def process_file(email, uploaded_file, unique_key, use_converti=True):
+def process_file(email, uploaded_file, unique_key, use_converti=True, options_json=None):
     """
     This celery task save the uploaded file from memory to the
     tmp folder and calls the ``pandoc`` or ``converti`` command on it.
@@ -77,12 +83,13 @@ def process_file(email, uploaded_file, unique_key, use_converti=True):
     :param uploaded_file: the full path of the uploaded file
     :param unique_key: the unique name of the new folder
     :param use_converti: run ``converti`` command (true) or ``pandoc`` (false). As of now we always run converti
+    :param options_json: optional path to the `converti` command options json file
     """
     file_path, file_name = os.path.split(uploaded_file)
     new_file_name = '%s.rst' % os.path.splitext(os.path.basename(file_name))[0]
     log.info('Processing uploaded file {} from {}'.format(uploaded_file, email))
     if use_converti:
-        out_msg, err_msg = _run_converti(uploaded_file, new_file_name, file_path)
+        out_msg, err_msg = _run_converti(uploaded_file, new_file_name, file_path, options_json)
         if not err_msg:
             new_file_name = os.path.splitext(os.path.basename(file_name))[0]
             os.chdir(os.path.join(file_path, 'risultato-conversione'))
