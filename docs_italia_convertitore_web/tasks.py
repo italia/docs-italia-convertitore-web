@@ -13,6 +13,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.http import urlquote
+from html2text import html2text
 
 from .utils import sentry_message
 
@@ -132,10 +133,12 @@ def process_file(email, uploaded_file, unique_key, use_converti=True, options_js
         template = 'docs_italia_convertitore_web/email/success_body.html'
         subject = 'Conversione documento di DOCS ITALIA'
     body = render_to_string(template, context=context)
+    body_text = html2text(body)
     send_mail(
         subject,
-        body,
+        body_text,
         DOCS_ITALIA_CONVERTER_EMAIL,
         [email],
         fail_silently=False,
+        html_message=body
     )
