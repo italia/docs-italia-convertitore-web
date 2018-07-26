@@ -3,6 +3,11 @@
 History
 -------
 
+0.2.1 (unreleased)
+++++++++++++++++++
+
+* Fix converti arguments order to respect command requiremnts
+
 0.2.0 (2018-07-26)
 ++++++++++++++++++
 

@@ -120,5 +120,5 @@ class TaskTest(TestCase):
         process_file.apply(('test@email.com', path, 'super_unique', True, json_options), )
         sentry_message.assert_not_called()
         self.assertEqual(check_output.call_count, 1)
-        args = ['converti', path, '--opzioni-json', json_options]
+        args = ['converti', '--opzioni-json', json_options, path]
         self.assertEqual(args, list(check_output.call_args)[0][0])

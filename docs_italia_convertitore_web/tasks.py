@@ -36,12 +36,13 @@ def _run_converti(uploaded_file, new_file_name, file_path, options_json=None):
     """
     err_msg = None
     out_msg = None
-    options = []
+    options = ['converti']
     if options_json:
-        options = ['--opzioni-json', options_json]
+        options.extend(['--opzioni-json', options_json])
+    options.append(uploaded_file)
     try:
         out_msg = subprocess.check_output(
-            ['converti', uploaded_file] + options, stderr=subprocess.STDOUT, cwd=file_path
+            options, stderr=subprocess.STDOUT, cwd=file_path
         )
     except subprocess.CalledProcessError as e:
         err_msg = e.output
