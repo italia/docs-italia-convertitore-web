@@ -21,9 +21,20 @@ ROOT_URLCONF = "tests.urls"
 INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    "django.contrib.sessions",
     "django.contrib.sites",
     "docs_italia_convertitore_web",
+    "tests.test_app",
 ]
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
+)
 
 SITE_ID = 1
 
