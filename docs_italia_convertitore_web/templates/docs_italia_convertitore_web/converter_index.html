@@ -2,111 +2,85 @@
 {% load i18n static %}
 
 {% block content %}
-<div class="pt-5">
-    <div class="u-padding-r-bottom u-textLeft u-posRelative u-zindex-40">
-        <div class="container">
-            <form enctype="multipart/form-data" id="converterForm" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
-                method="POST" class="row" >{% csrf_token %}
-                <div class="col-md-12">
-                    <h1>Converti il tuo documento</h1>
-                    Puoi caricare file di tipo .docx e .odt creati secondo le linee guida su come scrivere documenti da convertire.
-                </div>
 
-                <div class="offset-md-4 col-md-4">
-                  <div class="form-group">
-                    {{ form.email.errors }}
-                    {{ form.email }}
-                    <label for="id_email">Indirizzo email</label>
-                  </div>
-                </div>
-                {% comment %}
-                    need to do this because of dropzone
-                    {{ form.file }}
-                    {{ form.file.errors }}
-                {% endcomment %}
-                <div id="fileInput" class="dropzone col-md-12">
-                  <div class="fallback">
-                    <input name="file" type="file" id="file"/>
-                  </div>
-                </div>
-                {% if form.converter_options %}
-                <fieldset class="col-md-12 shadow-sm">
-                    <legend>Opzioni avanzate <button class="btn btn-outline-primary btn-xs float-right mt-3" type="button" data-toggle="collapse" data-target="#collapseOptions" aria-expanded="false" aria-controls="collapseOptions">Mostra / Nascondi</button></legend>
+<div class="container">
+  <div class="row">
+    <aside class="col-12 col-md-4 col-lg-3 aside">
+      <div class="pt-5 pr-md-5">
+        <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Intro</h2>
+        <p class="x-small neutral-1-color-a8">Questo strumento permette di convertire un documento esistente nel formato <code>RST</code> adatto a Docs Italia. Esso è <b>tuttora in fase di test</b> e ogni feedback sul suo utilizzo è apprezzato!</p>
+        <p class="x-small neutral-1-color-a8">Puoi contattarci sul canale <a href="https://developersitalia.slack.com/messages/C9T4ELD4G/" target="_blank">#docs-italia di Slack</a> oppure <a href="https://github.com/italia/docs-italia-convertitore-web/issues" target="_blank">aprire una issue su GitHub</a>.</p>
+      </div>
+      <div class="pt-5 pr-md-5">
+        <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Modello da utilizzare</h2>
+        <p class="x-small neutral-1-color-a8">Ti suggeriamo di utilizzare uno di questi modelli preimpostati per una compilazione agevole del documento, oltre ad una conversione ottimale dello stesso</p>
+        <a class="btn btn-sm btn-outline-primary my-1" href="https://github.com/italia/docs-italia-esempiformattazione-docs/raw/master/esempio.docx">Scarica il modello (.docx)</a>
+        <a class="btn btn-sm btn-outline-primary my-1" href="https://github.com/italia/docs-italia-esempiformattazione-docs/raw/master/esempio.odt">Scarica il modello (.odt)</a>
+      </div>
+      </aside>
+    <main class="col-12 col-md-8 col-lg-9">
+      <div class="pt-5 pl-md-5">
+        <h1 class="title-main neutral-1-color-a9">Carica un documento</h1>
+        <p class="small neutral-1-color-a8">
+          Puoi caricare file di tipo .docx, .odt, LaTeX o Markdown, creati secondo le <a href="">Linee Guida</a> su come scrivere documenti da convertire.
+          Ti sarà inviata una e-mail all'indirizzo fornito, con lo zip da caricare su GitHub contenete files nel <a href="http://guida-docs-italia.readthedocs.io/it/latest/index/scrivere-un-documento.html#il-formato-restructuredtext-rst">formato adatto a Docs Italia</a>.
+        </p>
+        <form enctype="multipart/form-data" id="converterForm" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
+              method="POST" class="row" >
+          {% csrf_token %}
 
-                    <div class="row collapse" id="collapseOptions">
-                        <div class="col-md-12">
-                            Per maggiori informazioni
-                            <a href="https://github.com/italia/docs-italia-comandi-conversione/blob/master/doc/comandi/converti-opzioni.md">Vedi la documentazione di dettaglio</a>
-                        </div>
-                        {% for field in form %}
-                            {% if field.name in form.converter_options %}
-                                <div class="form-group col">
-                                  {{ field }}
-                                  {{ field.label }}
-                                  <i class="it-info" data-html="true" title="Informazioni" data-toggle="popover" data-trigger="click" data-placement="top" data-content='{{ field.help_text|safe }}'></i>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </fieldset>
-                {% endif %}
-                <div class="col-md-12 pt-3 pb-5 text-center">
-                    <button form="converterForm" id="submit" type="submit" class="yo btn btn-primary" >
-                        Invia
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+          <div class="offset-md-3 col-md-6">
+            <div class="form-group">
+              {{ form.email }}
+              <label for="id_email">Indirizzo email</label>
+            </div>
+            <div class="errors"></div>
+          </div>
+          {% comment %}
+          need to do this because of dropzone
+          {{ form.file }}
+          {{ form.file.errors }}
+          {% endcomment %}
+          <div id="fileInput" class="dropzone col-md-12">
+            <div class="fallback">
+              <input name="file" type="file" id="file"/>
+            </div>
+          </div>
+          {% if form.converter_options %}
+          <fieldset class="col-md-12">
+            <legend class="h6 pt-5">Opzioni avanzate</legend>
+            <div class="row">
+              <div class="col-md-12">
+                Per maggiori informazioni
+                <a href="https://github.com/italia/docs-italia-comandi-conversione/blob/master/doc/comandi/converti-opzioni.md">Vedi la documentazione di dettaglio</a> e le Linee Guida.
+              </div>
+              {% for field in form %}
+              {% if field.name in form.converter_options %}
+              <div class="form-check form-check-inline">
+                <input id="id_{{ field.name }}" name="{{ field.name }}" type="checkbox">
+                <label for="id_{{ field.name }}">{{ field.label }}</label>
+                <i class="it-info px-2 mt-minus8" data-html="true" title="{{ field.label }}" data-toggle="popover" data-trigger="click" data-placement="top" data-content='{{ field.help_text|safe }}'></i>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </fieldset>
+          {% endif %}
+          <div class="col-md-12 pt-3 pb-5 text-center">
+            <button form="converterForm" id="submit" type="submit" class="yo btn btn-primary" >Invia</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
 </div>
 <link rel="stylesheet" href="{% static 'css/dropzone.css' %}" />
+<link rel="stylesheet" href="{% static 'css/docs_italia_convertitore.css' %}" />
 {% endblock %}
 
 {% block extra_scripts %}
 {{ block.super }}
-<script src="{% static 'js/dropzone.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
-<script>
-    Dropzone.autoDiscover = false;
-    $(document).ready(function() {
-      $(function () {
-        $('[data-toggle="popover"]').popover()
-      });
-      var validator = $('#converterForm').validate({
-        rules: {
-          email: {
-            required: true,
-              email: true
-          },
-          file: {
-            required: true
-          }
-        }
-      });
-      new Dropzone('#fileInput', {
-        url: "#",
-        maxFiles:1,
-        acceptedFiles: "application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text",
-        autoProcessQueue: false,
-        init: function () {
-        var myDropzone = this;
-        $("#submit").click(function (e) {
-                e.preventDefault();
-                myDropzone.processQueue();
-                if(!validator.form()) {
-                  alert("E' necessario fornire un indirizzo email");
-                }
-            });
-            myDropzone.on('success', function () {
-                window.location.href = "{% url 'docs_italia_convertitore:conversion-started' %}";
-            });
-        },
-        sending: function (file, xhr, formData) {
-            formData.append("email", $('#id_email').val());
-            formData.append("monospace", $('#id_monospace').val());
-            formData.append("csrfmiddlewaretoken", $('input[name="csrfmiddlewaretoken"]').val());
-        }
-     })
-    })
-</script>
+<script src="{% static 'js/dropzone.js' %}"></script>
+<script src="{% static 'js/docs_italia_convertitore.js' %}"></script>
 {% endblock %}

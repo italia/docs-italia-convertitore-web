@@ -1,0 +1,18 @@
+.title-main {
+    font-weight: 600;
+}
+.title-minor {
+    letter-spacing: 1px;
+}
+.popover {
+    border: 0;
+    border-radius: 0;
+}
+.popover-header {
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+}
+.mt-minus8 {
+    margin-top: -8px;
+}
