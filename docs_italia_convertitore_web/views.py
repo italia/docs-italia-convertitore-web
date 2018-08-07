@@ -24,6 +24,15 @@ class FileUploadView(FormView):
     template_name = 'docs_italia_convertitore_web/converter_index.html'
     form_class = ItaliaConverterForm
 
+    def get_initial(self):
+        initial = {}
+        try:
+            if self.request.user.is_authenticated():
+                initial['email'] = self.request.user.email
+        except AttributeError:
+            pass
+        return initial
+
     def form_valid(self, form):
         """
         the form valid function save the file from memory to a
