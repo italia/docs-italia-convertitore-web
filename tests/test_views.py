@@ -14,7 +14,10 @@ class ViewsTest(TestCase):
     def test_no_initial(self):
         response = self.client.get(reverse('docs_italia_convertitore_web:docs-italia-converter-view'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, '<input id="id_email" name="email" type="email" />')
+        self.assertContains(
+            response,
+            '<input class="form-control" data-msg="Email non valida" id="id_email" name="email" type="email" />'
+        )
 
     def test_initial(self):
         user = User.objects.create_user(username='testuser', email='testuser@example.com', password='test')
