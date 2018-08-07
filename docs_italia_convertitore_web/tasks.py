@@ -58,7 +58,7 @@ def _run_pandoc(uploaded_file, new_file_name, file_path):
     :param uploaded_file: uploaded file
     :param new_file_name: converted file name
     :param file_path: source path
-    :param options_json: optional path to the `converti` command options json file
+    :param options_json: optional path to the `converti` command JSON file
 
     :return: error messages
     """
@@ -77,15 +77,15 @@ def _run_pandoc(uploaded_file, new_file_name, file_path):
 @shared_task(queue='web')
 def process_file(email, uploaded_file, unique_key, use_converti=True, options_json=None):
     """
-    This celery task save the uploaded file from memory to the
+    This celery task saves the uploaded file from memory to the
     tmp folder and calls the ``pandoc`` or ``converti`` command on it.
-    Than emails the user with the link to download the converted file or the error message
+    Than emails the user with the link to download the converted file
 
     :param email: the user email
     :param uploaded_file: the full path of the uploaded file
     :param unique_key: the unique name of the new folder
-    :param use_converti: run ``converti`` command (true) or ``pandoc`` (false). As of now we always run converti
-    :param options_json: optional path to the `converti` command options json file
+    :param use_converti: run ``converti`` command (true) or ``pandoc`` (false).
+    :param options_json: optional path to the `converti` command JSON file
     """
     file_path, file_name = os.path.split(uploaded_file)
     new_file_name = '%s.rst' % os.path.splitext(os.path.basename(file_name))[0]
