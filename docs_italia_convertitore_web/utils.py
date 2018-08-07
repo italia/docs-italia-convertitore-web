@@ -6,7 +6,8 @@ def sentry_message(message, **kwargs):
     """
     Log a message to sentry, including the stack trace and extra variables
 
-    The log level can be set by adding a ``log_level`` key to :data:`kwargs`. Default is ``info``
+    Log level can be set by adding a ``log_level`` key to :data:`kwargs`.
+    Default is ``info``
 
     Example:
 

@@ -53,4 +53,8 @@ $(document).ready(function() {
         dictMaxFilesExceeded: "Non puoi caricare altri file",
         dictFileSizeUnits: "Non puoi superare il numero di file consentito per quest'area"
     })
+
+    $('.it-info').on('click', function () {
+        $('.it-info').not(this).popover('hide');
+    })
 })
