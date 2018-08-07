@@ -11,7 +11,12 @@ from django.utils.translation import ugettext_lazy as _
 
 class ItaliaConverterForm(forms.Form):
     """ Italia converter Form """
-    email = forms.EmailField(label=_('email'), required=True, widget=forms.EmailInput(attrs={'class': 'form-control', 'data-msg': 'Email non valida'}))
+    email = forms.EmailField(
+        label=_('email'),
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'data-msg': 'Email non valida'}))
     file = forms.FileField(label=_('file'), required=False)
     normattiva = forms.BooleanField(
         label=_('Collegamenti normattiva'), required=False,
@@ -62,8 +67,7 @@ class ItaliaConverterForm(forms.Form):
         'normattiva',
         'celle_complesse',
         'preserva_citazioni',
-        'dividi_sezioni',
-        ]
+        'dividi_sezioni']
 
     def get_options_json(self, folder):
         """ Saves the converter options as a JSON file """

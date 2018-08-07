@@ -32,7 +32,7 @@ $(document).ready(function() {
                 }
             });
             myDropzone.on('success', function () {
-                window.location.href = "{% url 'docs_italia_convertitore:conversion-started' %}";
+                window.location.href = window.conversionStartedLocation;
             });
         },
         sending: function (file, xhr, formData) {
