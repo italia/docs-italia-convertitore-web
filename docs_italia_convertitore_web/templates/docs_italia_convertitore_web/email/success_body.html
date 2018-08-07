@@ -1,3 +1,6 @@
+{% extends 'docs_italia_convertitore_web/email/base.html' %}
+
+{% block content %}
 <p>
   {{ file_name }} converted
 </p>
@@ -7,3 +10,4 @@
 <p>
   Conversion ID: {{ conversion_id }}
 </p>
+{% endblock %}

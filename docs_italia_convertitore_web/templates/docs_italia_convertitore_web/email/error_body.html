@@ -1,3 +1,6 @@
+{% extends 'docs_italia_convertitore_web/email/base.html' %}
+
+{% block content %}
 <p>
   An error occurred while converting {{ file_name }}
 </p>
@@ -8,3 +11,4 @@
 <p>
   Conversion package: {{ path }}<br>
 </p>
+{% endblock %}

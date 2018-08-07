@@ -1,0 +1,38 @@
+body {
+  padding:0;
+  margin:0;
+  display:block;
+  background:#ececec;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #443;
+  background-color: #ececec;
+}
+
+a img { border: none; }
+
+table { border-collapse: collapse !important; }
+#outlook a { padding:0; }
+.ReadMsgBody { width: 100%; }
+.ExternalClass {width:100%;}
+table td {border-collapse: collapse;}
+.ExternalClass * {line-height: 115%;}
+
+@media (max-width: 600px), (max-device-width: 600px) {
+  #content-wrapper {
+    width: 100%;
+  }
+
+  td.header img {
+    width: 100%;
+    height: 150px;
+  }
+}
+
+a {
+  color: #465158;
+}
+
+p {
+  color: #443 !important;
+}
