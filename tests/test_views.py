@@ -4,7 +4,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import RequestFactory, TestCase
-
 from docs_italia_convertitore_web.views import FileUploadView
 
 User = get_user_model()
