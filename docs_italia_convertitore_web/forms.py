@@ -52,13 +52,13 @@ class ItaliaConverterForm(forms.Form):
         Vai alla linea guida →</a></p>
         ''')
     )
-    dividi_sezioni = forms.BooleanField(
-        label=_('Dividi sezioni'), required=False,
+    livello_singolo = forms.BooleanField(
+        label=_('Livello singolo'), required=False,
         help_text=_('''
         <p>Con questa opzione abilitata, la struttura dei files viene divisa
         solo in base alle sezioni di primo livello.</p>
         <p><a target="blank"
-        href="https://github.com/italia/docs-italia-comandi-conversione/blob/master/doc/comandi/converti-opzioni.md#dividi-sezioni"
+        href="https://github.com/italia/docs-italia-comandi-conversione/blob/master/doc/comandi/converti-opzioni.md#livello-singolo"
         class="d-block text-uppercase font-weight-bold x-small">
         Vai alla linea guida →</a></p>''')
     )
@@ -67,7 +67,8 @@ class ItaliaConverterForm(forms.Form):
         'normattiva',
         'celle_complesse',
         'preserva_citazioni',
-        'dividi_sezioni']
+        'livello_singolo'
+    ]
 
     def get_options_json(self, folder):
         """ Saves the converter options as a JSON file """
@@ -75,7 +76,7 @@ class ItaliaConverterForm(forms.Form):
         options = {
             # Ref: https://github.com/italia/docs-italia-comandi-conversione
             # /doc/comandi/converti-opzioni.md#dividi-sezioni
-            'dividi-sezioni': self.cleaned_data['dividi_sezioni'],
+            'livello-singolo': self.cleaned_data['livello_singolo'],
 
             # /doc/comandi/converti-opzioni.md#collegamento-normattiva
             'collegamento-normattiva': self.cleaned_data['normattiva'],

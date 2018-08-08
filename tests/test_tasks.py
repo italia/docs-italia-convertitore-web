@@ -112,7 +112,7 @@ class TaskTest(TestCase):
             'normattiva': True,
             'celle-complesse': False,
             'preserva-citazioni': True,
-            'dividi-sezioni': False
+            'livello-singolo': False
         }
         with open(json_options, 'w') as fp:
             json.dump(options, fp)

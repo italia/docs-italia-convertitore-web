@@ -19,13 +19,13 @@ class TaskTest(TestCase):
             'normattiva': True,
             'celle_complesse': False,
             'preserva_citazioni': True,
-            'dividi_sezioni': False
+            'livello_singolo': False
         }
         expected = {
             'collegamento-normattiva': True,
             'celle-complesse': False,
             'preserva-citazioni': True,
-            'dividi-sezioni': False
+            'livello-singolo': False
         }
         form = ItaliaConverterForm(data)
         self.assertTrue(form.is_valid())
