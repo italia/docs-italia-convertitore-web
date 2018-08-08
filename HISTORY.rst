@@ -3,6 +3,12 @@
 History
 -------
 
+0.3.1 (2018-08-08)
+++++++++++++++++++
+
+* Fix compatibility error with commant 0.6
+* Fix string error in urls.py
+
 0.3.0 (2018-08-08)
 ++++++++++++++++++
 
