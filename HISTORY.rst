@@ -3,13 +3,14 @@
 History
 -------
 
-0.2.1 (unreleased)
+0.3.0 (2018-08-08)
 ++++++++++++++++++
 
 * Fix error with latest bootstrap italia
 * Fix converti arguments order to respect command requirements
 * Use default user email if authenticated
 * Replace dividi-sezioni option with livello-singolo
+* Improve UI
 
 0.2.0 (2018-07-26)
 ++++++++++++++++++
