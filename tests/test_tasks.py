@@ -84,7 +84,7 @@ class TaskTest(TestCase):
         )
         make_archive.return_value = True
         sentry_message.return_value = True
-        os.makedirs(os.path.join(os.path.dirname(path), 'risultato-conversione'), exist_ok=True)
+        os.makedirs(os.path.join(os.path.dirname(path), 'risultati-conversione'), exist_ok=True)
         process_file.apply(('test@email.com', path, 'super_unique'), )
         sentry_message.assert_not_called()
         self.assertEqual(len(mail.outbox), 1)
@@ -106,7 +106,7 @@ class TaskTest(TestCase):
         sentry_message.return_value = True
 
         base_dir = os.path.dirname(path)
-        os.makedirs(os.path.join(base_dir, 'risultato-conversione'), exist_ok=True)
+        os.makedirs(os.path.join(base_dir, 'risultati-conversione'), exist_ok=True)
         json_options = os.path.join(base_dir, 'options.json')
         options = {
             'normattiva': True,

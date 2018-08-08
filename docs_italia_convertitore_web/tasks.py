@@ -91,14 +91,19 @@ def process_file(email, uploaded_file, unique_key, use_converti=True, options_js
     new_file_name = '%s.rst' % os.path.splitext(os.path.basename(file_name))[0]
     log.info('Processing uploaded file {} from {}'.format(uploaded_file, email))
     if use_converti:
+        log.info('Using converti - options: {}'.format(options_json))
         out_msg, err_msg = _run_converti(uploaded_file, new_file_name, file_path, options_json)
         if not err_msg:
-            new_file_name = os.path.splitext(os.path.basename(file_name))[0]
-            os.chdir(os.path.join(file_path, 'risultato-conversione'))
-            make_archive(os.path.join(file_path, new_file_name), 'zip', '.')
-            new_file_name = '%s.zip' % new_file_name
+            try:
+                new_file_name = os.path.splitext(os.path.basename(file_name))[0]
+                os.chdir(os.path.join(file_path, 'risultati-conversione'))
+                make_archive(os.path.join(file_path, new_file_name), 'zip', '.')
+                new_file_name = '%s.zip' % new_file_name
+            except Exception as e:
+                err_msg = force_text(e)
     else:
         out_msg, err_msg = _run_pandoc(uploaded_file, new_file_name, file_path)
+    log.info('Conversion completed - output {} - error: {}'.format(out_msg, err_msg))
     if err_msg:
         # zipping the content of the folder for inspection
         # reporting the URL to download the document through sentry
