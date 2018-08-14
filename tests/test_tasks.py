@@ -33,7 +33,7 @@ class TaskTest(TestCase):
         message = mail.outbox[0]
         self.assertEqual(message.subject, 'Errore conversione documento di DOCS ITALIA')
         self.assertIn(error_msg, message.body)
-        self.assertIn('Conversion ID', message.body)
+        self.assertIn('ID di conversione', message.body)
 
     @patch('docs_italia_convertitore_web.tasks._run_pandoc')
     @patch('docs_italia_convertitore_web.tasks.make_archive')
@@ -48,9 +48,9 @@ class TaskTest(TestCase):
         sentry_message.assert_not_called()
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
-        self.assertEqual(message.subject, 'Conversione documento di DOCS ITALIA')
+        self.assertEqual(message.subject, 'Hai convertito un documento di Docs Italia')
         self.assertIn('http://convert.com/media/tmp/super_unique/some%20file.rst', message.body)
-        self.assertIn('Conversion ID', message.body)
+        self.assertIn('ID di conversione', message.body)
 
     @patch('docs_italia_convertitore_web.tasks._run_converti')
     @patch('docs_italia_convertitore_web.tasks.make_archive')
@@ -72,7 +72,7 @@ class TaskTest(TestCase):
         message = mail.outbox[0]
         self.assertEqual(message.subject, 'Errore conversione documento di DOCS ITALIA')
         self.assertIn(error_msg, message.body)
-        self.assertIn('Conversion ID', message.body)
+        self.assertIn('ID di conversione', message.body)
 
     @patch('docs_italia_convertitore_web.tasks._run_converti')
     @patch('docs_italia_convertitore_web.tasks.make_archive')
@@ -90,11 +90,11 @@ class TaskTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         new_file = os.path.splitext(os.path.basename(path))[0]
-        self.assertEqual(message.subject, 'Conversione documento di DOCS ITALIA')
+        self.assertEqual(message.subject, 'Hai convertito un documento di Docs Italia')
         self.assertTrue(len(message.alternatives) == 1)
         self.assertIn('http://convert.com/media/tmp/super_unique/%s.zip' % new_file, message.body)
         self.assertIn('http://convert.com/media/tmp/super_unique/%s.zip' % new_file, message.alternatives[0][0])
-        self.assertIn('Conversion ID', message.body)
+        self.assertIn('ID di conversione', message.body)
 
     @patch('docs_italia_convertitore_web.tasks.subprocess.check_output')
     @patch('docs_italia_convertitore_web.tasks.make_archive')
