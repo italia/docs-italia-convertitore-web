@@ -1,9 +1,22 @@
+{% extends 'docs_italia_convertitore_web/email/base.html' %}
+
+{% block content %}
 <p>
-  {{ file_name }} converted
+  Grazie per aver usato il convertitore online di Docs Italia.
+</p>
+<p class="align-center">
+  <a href="{{ path }}">Scarica il tuo documento convertito</a>
 </p>
 <p>
-  Download the converted package from {{ path }}<br>
+  Consulta la <a href="http://guida-docs-italia.readthedocs.io/it/latest/index/scrivere-un-documento.html#conversione-col-convertitore-web">Guida a Docs Italia</a> per conoscere i prossimi passi per caricare il tuo documento sulla piattaforma.
 </p>
 <p>
-  Conversion ID: {{ conversion_id }}
+  Se incontri dei problemi, contatta lo staff di Docs Italia sul canale <a href="https://developersitalia.slack.com/messages/C9T4ELD4G/">#docs-italia</a> di Slack (se non hai un’account, <a href="https://slack.developers.italia.it/">clicca qui</a>) e segnala questo ID di conversione:
 </p>
+<p class="align-center">
+ {{ conversion_id }}
+</p>
+<p>
+A presto!
+</p>
+{% endblock %}

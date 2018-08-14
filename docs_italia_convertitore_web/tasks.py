@@ -9,11 +9,13 @@ from shutil import make_archive
 
 from celery import shared_task
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.http import urlquote
 from html2text import html2text
+from premailer import transform
 
 from .utils import sentry_message
 
@@ -137,8 +139,9 @@ def process_file(email, uploaded_file, unique_key, use_converti=True, options_js
             'conversion_id': unique_key
         }
         template = 'docs_italia_convertitore_web/email/success_body.html'
-        subject = 'Conversione documento di DOCS ITALIA'
-    body = render_to_string(template, context=context)
+        subject = 'Hai convertito un documento di Docs Italia'
+    current_site = 'http://' + Site.objects.get_current().domain
+    body = transform(render_to_string(template, context=context), base_url=current_site)
     body_text = html2text(body)
     send_mail(
         subject,
