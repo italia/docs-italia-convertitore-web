@@ -36,3 +36,7 @@ a {
 p {
   color: #443 !important;
 }
+
+.align-center {
+  text-align: center;
+}

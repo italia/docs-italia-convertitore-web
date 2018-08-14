@@ -139,7 +139,7 @@ def process_file(email, uploaded_file, unique_key, use_converti=True, options_js
             'conversion_id': unique_key
         }
         template = 'docs_italia_convertitore_web/email/success_body.html'
-        subject = 'Conversione documento di DOCS ITALIA'
+        subject = 'Hai convertito un documento di Docs Italia'
     current_site = 'http://' + Site.objects.get_current().domain
     body = transform(render_to_string(template, context=context), base_url=current_site)
     body_text = html2text(body)
