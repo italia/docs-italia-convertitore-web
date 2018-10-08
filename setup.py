@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import codecs
 import os
 import re
 import sys
@@ -40,9 +41,9 @@ if sys.argv[-1] == 'tag':
     os.system('git push --tags')
     sys.exit()
 
-readme = open('README.rst').read()
-requirements = open('requirements.txt').readlines()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+readme = codecs.open('README.rst', 'r', 'utf-8').read()
+requirements = codecs.open('requirements.txt', 'r', 'utf-8').readlines()
+history = codecs.open('HISTORY.rst', 'r', 'utf-8').read().replace('.. :changelog:', '')
 
 setup(
     name='docs-italia-convertitore-web',
