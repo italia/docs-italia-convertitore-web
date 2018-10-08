@@ -7,23 +7,23 @@
   <div class="row">
     <aside class="col-12 col-md-4 col-lg-3 aside">
       <div class="pt-5 pr-md-5">
-        <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Intro</h2>
-        <p class="x-small neutral-1-color-a8">Questo strumento permette di convertire un documento esistente nel formato <code>RST</code> adatto a Docs Italia. Esso è <b>tuttora in fase di test</b> e ogni feedback sul suo utilizzo è apprezzato!</p>
+        <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Come usare il convertitore</h2>
+        <p class="x-small neutral-1-color-a8">Questo strumento ti permette di convertire un documento esistente nel formato <code>RST</code> adatto a Docs Italia. Il convertitore è <b>tuttora in fase di test</b> e ogni feedback sul suo utilizzo è apprezzato!</p>
         <p class="x-small neutral-1-color-a8">Puoi contattarci sul canale <a href="https://developersitalia.slack.com/messages/C9T4ELD4G/" target="_blank">#docs-italia di Slack</a> oppure <a href="https://github.com/italia/docs-italia-convertitore-web/issues" target="_blank">aprire una issue su GitHub</a>.</p>
       </div>
       <div class="pt-5 pr-md-5">
-        <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Modello da utilizzare</h2>
-        <p class="x-small neutral-1-color-a8">Ti suggeriamo di utilizzare uno di questi modelli preimpostati per una compilazione agevole del documento, oltre ad una conversione ottimale dello stesso</p>
+        <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Modello per creare un documento da pubblicare su Docs Italia</h2>
+        <p class="x-small neutral-1-color-a8">Qui trovi un modello di documento con degli esempi di formattazione del testo ideali per una corretta conversione in RST, il formato usato da Docs Italia. Puoi usare il modello per adeguare il tuo documento prima della conversione.</p>
         <a class="btn btn-sm btn-outline-primary my-1" href="https://github.com/italia/docs-italia-esempiformattazione-docs/raw/master/esempio.docx">Scarica il modello (.docx)</a>
         <a class="btn btn-sm btn-outline-primary my-1" href="https://github.com/italia/docs-italia-esempiformattazione-docs/raw/master/esempio.odt">Scarica il modello (.odt)</a>
       </div>
       </aside>
     <main class="col-12 col-md-8 col-lg-9">
       <div class="pt-5 pl-md-5">
-        <h1 class="title-main neutral-1-color-a9">Carica un documento</h1>
+        <h1 class="title-main neutral-1-color-a9">Converti il tuo documento</h1>
         <p class="small neutral-1-color-a8">
-          Puoi caricare file di tipo .docx, .odt, LaTeX o Markdown, creati secondo le <a href="">Linee Guida</a> su come scrivere documenti da convertire.
-          Ti sarà inviata una e-mail all'indirizzo fornito, con lo zip da caricare su GitHub contenete files nel <a href="http://guida-docs-italia.readthedocs.io/it/latest/index/scrivere-un-documento.html#il-formato-restructuredtext-rst">formato adatto a Docs Italia</a>.
+          Con questo strumento puoi convertire i tuoi documenti in RST, il formato utilizzato all'interno di Docs Italia. Puoi caricare file di tipo .docx, .odt, LaTeX o Markdown, creati secondo le <a href="https://guida-docs-italia.readthedocs.io/it/latest/index/scrivere-un-documento.html">Linee Guida</a> su come scrivere documenti da convertire.
+          Dopo la conversione ti sarà inviata una e-mail all'indirizzo fornito, con tutti i file all'interno di una cartella da caricare su GitHub (la cartella è compressa, va scompattata prima di essere caricata su GitHub).
         </p>
         <form enctype="multipart/form-data" id="converterForm" action="{% url 'docs_italia_convertitore:docs-italia-converter-view' %}"
               method="POST" class="row" >
@@ -51,8 +51,8 @@
             <legend class="h6 pt-5">Opzioni avanzate</legend>
             <div class="row">
               <div class="col-md-12">
-                Per maggiori informazioni
-                <a href="https://github.com/italia/docs-italia-comandi-conversione/blob/master/doc/comandi/converti-opzioni.md">Vedi la documentazione di dettaglio</a> e le Linee Guida.
+                Per maggiori informazioni su come usare le opzioni avanzate, leggi la
+                <a href="https://github.com/italia/docs-italia-comandi-conversione/blob/master/doc/comandi/converti-opzioni.md">documentazione di dettaglio</a>.
               </div>
               {% for field in form %}
               {% if field.name in form.converter_options %}
