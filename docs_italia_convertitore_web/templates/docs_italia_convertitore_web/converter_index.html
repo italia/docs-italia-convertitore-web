@@ -9,13 +9,13 @@
       <div class="pt-5 pr-md-5">
         <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Come usare il convertitore</h2>
         <p class="x-small neutral-1-color-a8">Questo strumento ti permette di convertire un documento esistente nel formato <code>RST</code> adatto a Docs Italia. Il convertitore è <b>tuttora in fase di test</b> e ogni feedback sul suo utilizzo è apprezzato!</p>
-        <p class="x-small neutral-1-color-a8">Puoi contattarci sul canale <a href="https://developersitalia.slack.com/messages/C9T4ELD4G/" target="_blank">#docs-italia di Slack</a> oppure <a href="https://github.com/italia/docs-italia-convertitore-web/issues" target="_blank">aprire una issue su GitHub</a>.</p>
+        <p class="x-small neutral-1-color-a8">Puoi contattarci sul canale <a href="https://developersitalia.slack.com/messages/C9T4ELD4G/" target="_blank">#docs-italia di Slack</a> oppure <a href="{{ repos.converter }}/issues" target="_blank">aprire una issue su GitHub</a>.</p>
       </div>
       <div class="pt-5 pr-md-5">
         <h2 class="x-small title-minor text-uppercase font-weight-bold neutral-1-color-a9">Modello per creare un documento da pubblicare su Docs Italia</h2>
         <p class="x-small neutral-1-color-a8">Qui trovi un modello di documento con degli esempi di formattazione del testo ideali per una corretta conversione in RST, il formato usato da Docs Italia. Puoi usare il modello per adeguare il tuo documento prima della conversione.</p>
-        <a class="btn btn-sm btn-outline-primary my-1" href="https://github.com/italia/docs-italia-esempiformattazione-docs/raw/master/template.docx">Scarica il modello (.docx)</a>
-        <a class="btn btn-sm btn-outline-primary my-1" href="https://github.com/italia/docs-italia-esempiformattazione-docs/raw/master/template.odt">Scarica il modello (.odt)</a>
+        <a class="btn btn-sm btn-outline-primary my-1" href="{{ repos.template }}/raw/master/template.docx">Scarica il modello (.docx)</a>
+        <a class="btn btn-sm btn-outline-primary my-1" href="{{ repos.template }}/raw/master/template.odt">Scarica il modello (.odt)</a>
       </div>
       </aside>
     <main class="col-12 col-md-8 col-lg-9">
@@ -52,7 +52,7 @@
             <div class="row">
               <div class="col-md-12">
                 Per maggiori informazioni su come usare le opzioni avanzate, leggi la
-                <a href="https://github.com/italia/docs-italia-comandi-conversione/blob/master/doc/comandi/converti-opzioni.md">documentazione di dettaglio</a>.
+                <a href="{{ repos.commands }}/blob/master/doc/comandi/converti-opzioni.md">documentazione di dettaglio</a>.
               </div>
               {% for field in form %}
               {% if field.name in form.converter_options %}
