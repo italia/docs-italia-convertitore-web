@@ -24,6 +24,24 @@ class FileUploadView(FormView):
     template_name = 'docs_italia_convertitore_web/converter_index.html'
     form_class = ItaliaConverterForm
 
+    def _get_repo(self):
+        return {
+            'converter': getattr(
+                settings, 'DOCS_REPO_CONVERTER', 'https://github.com/italia/docs-italia-convertitore-web'
+            ),
+            'template': getattr(
+                settings, 'DOCS_REPO_TEMPLATE', 'https://github.com/italia/docs-italia-template-conversione'
+            ),
+            'commands': getattr(
+                settings, 'DOCS_REPO_COMMANDS', 'https://github.com/italia/docs-italia-comandi-conversione'
+            )
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super(FileUploadView, self).get_context_data(**kwargs)
+        context['repos'] = self._get_repo()
+        return context
+
     def get_initial(self):
         initial = {}
         try:
