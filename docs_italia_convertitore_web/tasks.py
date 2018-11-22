@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 PRODUCTION_DOMAIN = getattr(settings, 'PRODUCTION_DOMAIN')
 DOCS_ITALIA_CONVERSION_UPLOAD_PATH = os.path.join(settings.MEDIA_URL, 'tmp')
-DOCS_ITALIA_CONVERTER_EMAIL = getattr(settings, 'DOCS_ITALIA_CONVERTER_EMAIL', 'info@example.org')
+DOCS_ITALIA_CONVERTER_EMAIL = getattr(settings, 'DOCS_ITALIA_CONVERTER_EMAIL', 'no-reply@docs.italia.it')
 
 
 def _run_converti(uploaded_file, new_file_name, file_path, options_json=None):
