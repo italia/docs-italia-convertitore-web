@@ -16,7 +16,9 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
-            '<input class="form-control" data-msg="Email non valida" id="id_email" name="email" type="email" />'
+            '<'
+            'input type="email" name="email" class="form-control" data-msg="Email non valida" required id="id_email" '
+            '/>',
         )
 
     def test_initial(self):

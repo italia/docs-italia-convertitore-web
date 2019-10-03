@@ -3,6 +3,14 @@
 History
 -------
 
+0.4.0 (2019-10-03)
+++++++++++++++++++
+
+* Bump supported Django version to 1.11
+* Add Python 3.7 support
+* Drop Python 3.5 support
+* Prevent Premailer from hitting the network when running tests
+
 0.3.1 (2018-08-08)
 ++++++++++++++++++
 
