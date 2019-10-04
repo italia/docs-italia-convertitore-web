@@ -141,7 +141,11 @@ def process_file(email, uploaded_file, unique_key, use_converti=True, options_js
         template = 'docs_italia_convertitore_web/email/success_body.html'
         subject = 'Hai convertito un documento di Docs Italia'
     current_site = 'http://' + Site.objects.get_current().domain
-    body = transform(render_to_string(template, context=context), base_url=current_site)
+    body = transform(
+        render_to_string(template, context=context),
+        base_url=current_site,
+        allow_network=getattr(settings, 'PREMAILER_ALLOW_NETWORK', True),
+    )
     body_text = html2text(body)
     send_mail(
         subject,
