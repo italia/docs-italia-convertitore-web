@@ -20,6 +20,7 @@ $(document).ready(function() {
     new Dropzone('#fileInput', {
         url: "#",
         maxFiles:1,
+        addRemoveLinks: true,
         acceptedFiles: "application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text,.md",
         autoProcessQueue: false,
         init: function () {
