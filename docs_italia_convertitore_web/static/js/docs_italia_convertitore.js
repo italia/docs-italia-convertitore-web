@@ -50,8 +50,7 @@ $(document).ready(function() {
         dictUploadCanceled: "Caricamento annullato",
         dictCancelUploadConfirmation: "Vuoi davvero interrompere il caricamento?",
         dictRemoveFile: "Rimuovi",
-        dictMaxFilesExceeded: "Non puoi caricare altri file",
-        dictFileSizeUnits: "Non puoi superare il numero di file consentito per quest'area"
+        dictMaxFilesExceeded: "Non puoi caricare altri file"
     })
 
     $('.it-info').on('click', function () {
